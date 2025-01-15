@@ -40,10 +40,8 @@ export default function FeegowApiClient() {
     const date = new Date();
     const dateFormat = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     const params = new URLSearchParams({
-      // data_start: dateFormat,
-      // data_end: dateFormat,
-      data_start: "6-1-2025",
-      data_end: "10-1-2025",
+      data_start: dateFormat,
+      data_end: dateFormat,
     }).toString();
 
     try {
