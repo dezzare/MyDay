@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { ScrollView, Text, View } from "@/components/Themed";
 import FeegowApiClient from "@/components/FeegowApiClient";
 
