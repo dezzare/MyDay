@@ -20,6 +20,8 @@ export default function FeegowApiClient() {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
   const [error, setError] = useState(null);
+  const date = new Date();
+  const dateFormat = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
   const tk = AsyncStorage.getItem("ApiKey")
     .then((r) => {
       if (r == null) {
@@ -37,8 +39,6 @@ export default function FeegowApiClient() {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("X-Access-Token", token);
-    const date = new Date();
-    const dateFormat = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     const params = new URLSearchParams({
       data_start: dateFormat,
       data_end: dateFormat,
@@ -125,6 +125,14 @@ export default function FeegowApiClient() {
       <View style={styles.center}>
         <Text>Carregando...</Text>
         <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <View style={styles.center}>
+        <Text>Agenda vazia para: {dateFormat}</Text>
       </View>
     );
   }
