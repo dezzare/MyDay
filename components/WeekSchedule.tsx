@@ -18,15 +18,29 @@ export default function WeeklyAgenda() {
   );
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState("");
-  const tk = AsyncStorage.getItem("ApiKey").then((r) => {
-    if (r == null) {
-      return "";
-    }
-    setToken(r);
-    return r;
+
+  useEffect(() => {
+    const fetchApiKey = async () => {
+      const savedToken = await AsyncStorage.getItem("ApiKey");
+      if (savedToken) {
+        setToken(savedToken);
+      }
+      setLoading(false);
+    };
+    fetchApiKey();
   });
 
+  useEffect(() => {
+    if (token) {
+      fetchWeeklyAgendamentos();
+    }
+  }, [token]);
+
   const fetchWeeklyAgendamentos = async () => {
+    if (!token) {
+      console.error("API Key não encontrada.");
+      return;
+    }
     const { startOfWeek, endOfWeek } = getWeekRange();
     const baseUrl = new URL("https://api.feegow.com/v1/api/appoints/search/");
     const params = new URLSearchParams({
@@ -187,12 +201,16 @@ export default function WeeklyAgenda() {
 
   return (
     <View style={styles.container}>
-      <Button title="Atualizar" onPress={fetchWeeklyAgendamentos} />
+      <View style={styles.btn}>
+        <Button title="Atualizar" onPress={fetchWeeklyAgendamentos} />
+      </View>
       <ScrollView>
         {Object.keys(data).map((day) => (
           <View key={day}>
             <TouchableOpacity onPress={() => toggleExpand(day)}>
-              <Text style={styles.dayTitle}>{day}</Text>
+              <Text style={styles.dayTitle}>
+                {day} - {data[day].length}
+              </Text>
             </TouchableOpacity>
             {expandedDays[day] && (
               <View style={styles.agendamentos}>
@@ -249,6 +267,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  btn: {
+    marginBottom: 30,
   },
   emptyMessage: {
     fontSize: 14,

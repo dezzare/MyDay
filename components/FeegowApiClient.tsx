@@ -17,23 +17,30 @@ interface Agendamento {
 
 export default function FeegowApiClient() {
   const [data, setData] = useState<Agendamento[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [token, setToken] = useState("");
   const [error, setError] = useState(null);
   const date = new Date();
   const dateFormat = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-  const tk = AsyncStorage.getItem("ApiKey")
-    .then((r) => {
-      if (r == null) {
-        return "";
+
+  useEffect(() => {
+    const fetchApiKey = async () => {
+      const savedToken = await AsyncStorage.getItem("ApiKey");
+      if (savedToken) {
+        setToken(savedToken);
       }
-      setToken(r);
-      return r;
-    })
-    .toString(); // Para retornar "string" ao invés de "Promise<string>"
+      setLoading(false);
+    };
+    fetchApiKey();
+  });
+
+  useEffect(() => {
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
 
   const fetchData = async () => {
-    setLoading(true);
     setError(null);
     const baseUrl = new URL("https://api.feegow.com/v1/api/appoints/search/");
     const headers = new Headers();
@@ -107,9 +114,9 @@ export default function FeegowApiClient() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   if (error) {
     return (
@@ -139,7 +146,9 @@ export default function FeegowApiClient() {
 
   return (
     <View style={styles.container}>
-      <Button title="Atualizar" onPress={fetchData} />
+      <View style={styles.btn}>
+        <Button title="Atualizar" onPress={fetchData} />
+      </View>
       <FlatList
         data={data}
         keyExtractor={(item) => item.agendamento_id}
@@ -162,6 +171,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+  },
+  btn: {
+    marginBottom: 30,
   },
   center: {
     flex: 1,

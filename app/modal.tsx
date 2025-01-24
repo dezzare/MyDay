@@ -7,7 +7,6 @@ import EditApiKey from "@/components/EditApiKey";
 export default function ModalScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Configurações</Text>
       <View
         style={styles.separator}
         lightColor="#eee"

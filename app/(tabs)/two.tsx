@@ -6,7 +6,6 @@ import WeekSchedule from "@/components/WeekSchedule";
 export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Agenda da Semana</Text>
       <View
         style={styles.separator}
         lightColor="#eee"

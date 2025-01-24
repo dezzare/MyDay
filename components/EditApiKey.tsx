@@ -70,11 +70,12 @@ export default function EditApiKey() {
 
   if (apiKey == "") {
     return (
-      <SafeAreaView>
-        <View style={styles.getStartedContainer}>
-          <Text style={styles.getWarningText}> *Requerido</Text>
+      <SafeAreaView style={styles.getStartedContainer}>
+        <View style={styles.getInputContainer}>
+          <Text style={styles.getStartedText}>API Key:</Text>
           <TextInput
             style={styles.getTextInput}
+            placeholder="Digite sua API Key"
             onChangeText={setState}
             value={apiKey}
           />
@@ -83,9 +84,9 @@ export default function EditApiKey() {
     );
   } else {
     return (
-      <SafeAreaView>
-        <View style={styles.getStartedContainer}>
-          <Text style={styles.getWarningText}> Valor ApiKey: {apiKey}</Text>
+      <SafeAreaView style={styles.getStartedContainer}>
+        <View style={styles.getInputContainer}>
+          <Text style={styles.getStartedText}>API Key:</Text>
           <TextInput
             style={styles.getTextInput}
             onChangeText={setState}
@@ -99,42 +100,37 @@ export default function EditApiKey() {
 
 const styles = StyleSheet.create({
   getStartedContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
+
+  getInputContainer: {
+    marginBottom: 20,
+    flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 50,
   },
-  homeScreenFilename: {
-    marginVertical: 7,
+
+  getTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
   },
-  codeHighlightContainer: {
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getWarningText: {
-    fontSize: 17,
-    lineHeight: 24,
-    textDecorationColor: "red",
-    color: "red",
-  },
+
   getStartedText: {
     fontSize: 17,
-    lineHeight: 24,
-    textAlign: "center",
+    lineHeight: 50,
   },
   getTextInput: {
-    marginTop: 100,
-    height: 40,
+    height: 50,
     margin: 12,
+    padding: 10,
     borderWidth: 1,
-  },
-  helpContainer: {
-    marginTop: 15,
-    marginHorizontal: 20,
-    alignItems: "center",
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
+    width: "80%",
+    maxWidth: 300,
+    alignSelf: "center",
     textAlign: "center",
+    textAlignVertical: "center",
   },
 });
